@@ -56,8 +56,7 @@
 						<c:if test="${ empty queryString }">
 							<a href="search.htm?query&page=${j}">${j}</a>&nbsp;
     			</c:if>
-					</c:forEach>
-				</td>
+					</c:forEach></td>
 			</tr>
 		</table>
 		<a href="entry.htm?date=${dateString}">Create an entry</a> <a

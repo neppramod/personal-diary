@@ -3,7 +3,6 @@ package org.pkg.controller;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.pkg.domain.Message;
 import org.pkg.service.MessageService;
+import org.pkg.util.Formatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
@@ -27,6 +27,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * It handles all the message CRUD operation. This controller is used to manage
+ * the entry of this application
+ * 
+ * @author pramod
+ * 
+ */
 @Controller
 public class BlogController {
 
@@ -35,6 +42,9 @@ public class BlogController {
 
 	@Autowired
 	private MessageSource messageSource;
+
+	@Autowired
+	private Formatter formatter;
 
 	/**
 	 * Default Page. Has no logic for now
@@ -46,8 +56,8 @@ public class BlogController {
 			throws NoSuchMessageException {
 
 		/*
-		 * Read settings from messages.properties page
-		*  How many characters we want in each column		
+		 * Read settings from messages.properties page How many characters we
+		 * want in each column
 		 */
 
 		int indexDescriptionSize = Integer.parseInt(messageSource.getMessage(
@@ -65,102 +75,10 @@ public class BlogController {
 		 * entry.
 		 */
 
-		map.put("messageList",
-				formattedMessageList(indexTitleSize, indexDescriptionSize, 0,
-						indexLimit, (Date) null));
+		map.put("messageList", formatter.formattedMessageList(indexTitleSize,
+				indexDescriptionSize, 0, indexLimit, (Date) null));
 
 		return "index";
-	}
-
-	/**
-	 * Utiity Function to format title and description size. We prepare to
-	 * display on list table.
-	 * 
-	 * @param titleSize
-	 *            length of title text
-	 * @param descriptionSize
-	 *            length of description text
-	 * @param start
-	 *            start index
-	 * @param limit
-	 *            no. of entries to display
-	 * @param dateString
-	 *            date for list
-	 * @return
-	 */
-
-	/*
-	 * Has to work for date specific, with no page also If it was default list
-	 * page then pagination would go for all list If it is for save pagination
-	 * would go for list with specific date
-	 */
-
-	public List<Message> formattedMessageList(int titleSize,
-			int descriptionSize, int start, int limit, Date date) {
-		List<Message> messages = new ArrayList<Message>();
-		List<Message> messageList;
-
-		if (date != null)
-			messageList = messageService.listMessage(date);
-		else
-			messageList = messageService.listMessage();
-
-		if (limit > messageList.size())
-			limit = messageList.size();
-
-		// Lets format in descending order
-		for (int i = messageList.size() - 1; i >= 0; i--) {
-			Message message = messageList.get(i);
-
-			if (message.getTitle().length() > titleSize)
-				message.setTitle(message.getTitle().substring(0, titleSize - 1)
-						+ " ..");
-
-			if (message.getDescription().length() > descriptionSize)
-				message.setDescription(message.getDescription().substring(0,
-						descriptionSize - 1)
-						+ " ..");
-
-			messages.add(message);
-		}
-
-		messages = messages.subList(start, limit);
-
-		return messages;
-	}
-
-	public List<Message> formattedMessageList(int titleSize,
-			int descriptionSize, int start, int limit, String query) {
-		List<Message> messages = new ArrayList<Message>();
-		List<Message> messageList;
-
-		/* I hoped it is null, but it is empty string */
-		if (!query.equals(""))
-			messageList = messageService.listMessageByTitle(query);
-		else
-			messageList = messageService.listMessage();
-
-		if (limit > messageList.size())
-			limit = messageList.size();
-
-		// Lets get the messages
-		for (Message message : messageList) {
-
-			if (message.getTitle().length() > titleSize)
-				message.setTitle(message.getTitle().substring(0, titleSize - 1)
-						+ " ..");
-
-			if (message.getDescription().length() > descriptionSize)
-				message.setDescription(message.getDescription().substring(0,
-						descriptionSize - 1)
-						+ " ..");
-
-			messages.add(message);
-		}
-
-		messages = messages.subList(start, limit);
-
-		return messages;
 	}
 
 	/**
@@ -220,10 +138,14 @@ public class BlogController {
 	public String saveEntry(@ModelAttribute("message") Message message,
 			BindingResult result, HttpServletRequest request) {
 		
-		if(result.hasErrors()) {
+		// Format html < and > character before saving.		
+		// message.setDescription(formatter.formatHTML(message.getDescription()));
+		// message.setTitle(formatter.formatHTML(message.getTitle()));
+
+		if (result.hasErrors()) {
 			return "entry";
 		}
-		
+
 		messageService.addMessage(message);
 
 		/*
@@ -285,27 +207,25 @@ public class BlogController {
 		if (!dateString.equals("")) {
 			Date date = dateFormat.parse(dateString);
 
-			List<Message> tempMessageList = formattedMessageList(listTitleSize,
-					listDescriptionSize, (page - 1) * pageLimit, (page - 1)
-							* pageLimit + pageLimit, date);
+			List<Message> tempMessageList = formatter.formattedMessageList(
+					listTitleSize, listDescriptionSize, (page - 1) * pageLimit,
+					(page - 1) * pageLimit + pageLimit, date);
 
 			map.put("messageList", tempMessageList);
 			messageSize = messageService.listMessage(date).size();
 
-			pages = (messageSize - 1) / pageLimit;			
+			pages = (messageSize - 1) / pageLimit;
 		} else {
 
 			// Sorry folks, we don't want to pass ambigious null value (May be
 			// string or date)
-			map.put("messageList",
-					formattedMessageList(listTitleSize, listDescriptionSize,
-							(page - 1) * pageLimit, (page - 1) * pageLimit
-									+ pageLimit, (Date) null));
+			map.put("messageList", formatter.formattedMessageList(
+					listTitleSize, listDescriptionSize, (page - 1) * pageLimit,
+					(page - 1) * pageLimit + pageLimit, (Date) null));
 
 			messageSize = messageService.listMessage().size();
 			pages = (messageSize - 1) / pageLimit;
 		}
-		
 
 		map.put("pages", pages);
 		map.put("dateString", dateString);
@@ -341,9 +261,9 @@ public class BlogController {
 
 		if (!query.equals("")) {
 
-			List<Message> tempMessageList = formattedMessageList(listTitleSize,
-					listDescriptionSize, (page - 1) * pageLimit, (page - 1)
-							* pageLimit + pageLimit, query);
+			List<Message> tempMessageList = formatter.formattedMessageList(
+					listTitleSize, listDescriptionSize, (page - 1) * pageLimit,
+					(page - 1) * pageLimit + pageLimit, query);
 
 			map.put("messageList", tempMessageList);
 			messageSize = messageService.listMessageByTitle(query).size();
@@ -355,10 +275,9 @@ public class BlogController {
 			 * My fault. It should be "" not null, because we have treated this
 			 * as an empty String on formattedMessageList
 			 */
-			map.put("messageList",
-					formattedMessageList(listTitleSize, listDescriptionSize,
-							(page - 1) * pageLimit, (page - 1) * pageLimit
-									+ pageLimit, ""));
+			map.put("messageList", formatter.formattedMessageList(
+					listTitleSize, listDescriptionSize, (page - 1) * pageLimit,
+					(page - 1) * pageLimit + pageLimit, ""));
 
 			messageSize = messageService.listMessage().size();
 			pages = (messageSize - 1) / pageLimit;
@@ -371,9 +290,8 @@ public class BlogController {
 		map.put("dateString", dateString);
 		map.put("start", ((page - 1) * pageLimit));
 		map.put("queryString", query);
-	
 
 		return "search";
 	}
-	
+
 }

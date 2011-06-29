@@ -62,8 +62,7 @@
 						<c:if test="${ empty dateString }">
 							<a href="entry_list.htm?date&page=${j}">${j}</a>&nbsp;
     			</c:if>
-					</c:forEach>
-				</td>
+					</c:forEach></td>
 			</tr>
 		</table>
 		<a href="entry.htm?date=${dateString}">Create an entry</a> <a

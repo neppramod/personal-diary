@@ -5,6 +5,12 @@ import java.util.List;
 
 import org.pkg.domain.Message;
 
+/**
+ * Service class for message.
+ * It performs service layer for CRUD operation
+ * @author pramod
+ *
+ */
 public interface MessageService {
     public void addMessage(Message message);
 

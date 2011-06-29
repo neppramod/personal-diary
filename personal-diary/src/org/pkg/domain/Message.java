@@ -7,6 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Domain class used to represent individual entry (message)
+ * 
+ * @author pramod
+ *
+ */
 @Entity
 @Table(name = "MESSAGE")
 public class Message {

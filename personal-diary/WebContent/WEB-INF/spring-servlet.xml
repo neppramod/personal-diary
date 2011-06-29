@@ -31,6 +31,9 @@
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="messages" />
 	</bean>
+	
+	<!-- Our custom bean for dealing with formatter. -->
+	<bean id="formatter" class="org.pkg.util.Formatter" />
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
