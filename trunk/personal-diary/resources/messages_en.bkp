@@ -1,0 +1,15 @@
+# At index
+indexTitleSize=18   
+indexDescriptionSize=35    
+indexLimit=12  
+
+# At list
+pageLimit=10
+listTitleSize=18  
+listDescriptionSize=50
+
+typeMismatch.dateCreated=Invalid date format
+
+required.dateCreated=Date is required
+required.title=Title is required
+required.description=Description is required
