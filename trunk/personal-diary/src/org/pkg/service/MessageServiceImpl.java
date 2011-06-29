@@ -9,6 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service implementation for message. It uses the underlying
+ * DAO to perform its operation
+ * @author pramod
+ *
+ */
 @Service
 public class MessageServiceImpl implements MessageService {
 

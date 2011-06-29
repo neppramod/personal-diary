@@ -83,7 +83,8 @@
 			<c:forEach items="${messageList}" var="message">
 				<li><fmt:formatDate value='${message.dateCreated}' type='DATE'
 						pattern='MM-dd' />:&nbsp;<a
-					href="edit_entry.htm?id=${message.id}">${message.title}</a></li>
+					href="edit_entry.htm?id=${message.id}">${message.title}</a>
+				</li>
 			</c:forEach>
 		</ol>
 	</DIV>

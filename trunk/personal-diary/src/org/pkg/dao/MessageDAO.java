@@ -5,6 +5,11 @@ import java.util.List;
 
 import org.pkg.domain.Message;
 
+/**
+ * DAO layer for message
+ * @author pramod
+ *
+ */
 public interface MessageDAO {
 
     public void addMessage(Message message);

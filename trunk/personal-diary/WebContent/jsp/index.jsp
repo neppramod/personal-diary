@@ -83,7 +83,8 @@
 			<c:forEach items="${messageList}" var="message">
 				<li><fmt:formatDate value='${message.dateCreated}' type='DATE'
 						pattern='MM-dd' />:&nbsp;<a
-					href="edit_entry.htm?id=${message.id}">${message.title}</a></li>
+					href="edit_entry.htm?id=${message.id}">${message.title}</a>
+				</li>
 			</c:forEach>
 		</ol>
 	</DIV>
@@ -105,8 +106,9 @@
 			title="Previous" /> </a>
 
 		<div id="calendar" style="float: left;"></div>
-		<a href="#" id="next"><img src="images/next.png" alt="Next"
-			width="32" height="32" title="Next" /> </a>
+		<a href="#" id="next"><img style="float: left;"
+			src="images/next.png" alt="Next" width="32" height="32" title="Next" />
+		</a>
 	</DIV>
 
 

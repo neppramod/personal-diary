@@ -23,17 +23,19 @@
 			<tbody>
 				<tr>
 					<td>Title</td>
-					<td><form:input path="title" /></td>
+					<td><form:input path="title" />
+					</td>
 					<td><form:input path="dateCreated"
 							title="Input date in yyyy-MM-dd format. E.g 2005-06-07" />(yyyy-MM-dd)</td>
 					<td><form:errors path="title" cssClass="error" /> <form:errors
-							path="dateCreated" cssClass="error" />
-					</td>
+							path="dateCreated" cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td colspan="3"><form:textarea path="description" rows="12"
-							cols="50" /></td>
-					<td><form:errors path="description" cssClass="error" /></td>
+							cols="50" />
+					</td>
+					<td><form:errors path="description" cssClass="error" />
+					</td>
 				</tr>
 			</tbody>
 		</table>

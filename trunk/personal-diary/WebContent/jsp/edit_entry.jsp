@@ -40,17 +40,20 @@
 			<tbody>
 				<tr>
 					<td>Title</td>
-					<td><form:input path="title" /></td>
-					<td><fmt:formatDate value='${message.dateCreated}' type='DATE'
-							pattern='yyyy-MM-dd' /> <form:hidden path="dateCreated" /></td>
-					<td><form:errors path="title" cssClass="error" /> <form:errors
-							path="dateCreated" cssClass="error" />
+					<td><form:input path="title" />
 					</td>
+					<td><fmt:formatDate value='${message.dateCreated}' type='DATE'
+							pattern='yyyy-MM-dd' /> <form:hidden path="dateCreated" />
+					</td>
+					<td><form:errors path="title" cssClass="error" /> <form:errors
+							path="dateCreated" cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td colspan="3"><form:textarea path="description" rows="12"
-							cols="50" /></td>
-					<td><form:errors path="description" cssClass="error" /></td>
+							cols="50" />
+					</td>
+					<td><form:errors path="description" cssClass="error" />
+					</td>
 				</tr>
 				<tr>
 					<td>

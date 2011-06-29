@@ -8,6 +8,12 @@ import org.pkg.domain.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+/**
+ * DAO implementation.
+ * It uses hibernate's sessionFactory to do its work.
+ * @author pramod
+ *
+ */
 @Repository
 public class MessageDAOImpl implements MessageDAO {
 
